@@ -46,4 +46,8 @@ plt.title("Producción de Arroz respecto a la Superficie")
 plt.xlabel("Superficie (Ha)")
 plt.ylabel("Producción (qq)")
 plt.legend()
+plt.tight_layout()
+
+# Guardar la imagen con la numeración 01 antes de mostrarla
+plt.savefig("../03_imagenes/01_regresion_lineal.png", dpi=150)
 plt.show()

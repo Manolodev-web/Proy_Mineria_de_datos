@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.tree import DecisionTreeRegressor, plot_tree
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score, mean_absolute_percentage_error
 
 # 1. Cargar datos
 df = pd.read_excel('../datos/0901_Produccion_Arroz.xlsx', sheet_name='Hoja1')
@@ -14,21 +14,26 @@ y = df['PRODUCCION (qq)']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=42)
 
-print("=" * 60)
-print("ÁRBOL DE DECISIÓN - REGRESIÓN (Producción de Arroz)")
-print("=" * 60)
-
 # 3. Entrenar modelo
 arbol_reg = DecisionTreeRegressor(max_depth=4, random_state=42)
 arbol_reg.fit(X_train, y_train)
 
+# 4. Predicciones y Métricas
 pred_test = arbol_reg.predict(X_test)
 r2 = r2_score(y_test, pred_test)
 mae = mean_absolute_error(y_test, pred_test)
+rmse = np.sqrt(mean_squared_error(y_test, pred_test))
+mape = mean_absolute_percentage_error(y_test, pred_test) * 100
 
-print(f"R² Test: {r2:.4f} | MAE: {mae:.2f} qq")
+print("=" * 60)
+print("ÁRBOL DE DECISIÓN - REGRESIÓN (Producción de Arroz)")
+print("=" * 60)
+print(f"R² (Explicación de varianza): {r2:.4f}")
+print(f"MAE (Error Absoluto Medio)  : {mae:.2f} qq")
+print(f"RMSE (Error Cuadrático)     : {rmse:.2f} qq")
+print(f"MAPE (Error Porcentual)     : {mape:.2f} %\n")
 
-# 4. Gráfico 1: Estructura del Árbol de Regresión (Imagen 07)
+# 5. Gráfico 1: Estructura del Árbol de Regresión (Imagen 07)
 plt.figure(figsize=(16, 8))
 plot_tree(arbol_reg, feature_names=X.columns, filled=True, rounded=True, fontsize=9)
 plt.title("Árbol de Decisión - Regresión de Producción")
@@ -36,7 +41,7 @@ plt.tight_layout()
 plt.savefig("../03_imagenes/07_dt_regresion_arbol.png", dpi=150, bbox_inches="tight")
 plt.show()
 
-# 5. Gráfico 2: Real vs Predicho (Imagen 08)
+# 6. Gráfico 2: Real vs Predicho (Imagen 08)
 plt.figure(figsize=(8, 6))
 plt.scatter(y_test, pred_test, alpha=0.6, color="purple")
 minimo = min(y_test.min(), pred_test.min())

@@ -10,14 +10,12 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # === 1. CARGAR DATOS ===
-# Cambia la ruta si tu archivo Excel está en otra carpeta
 df = pd.read_excel('../datos/0901_Produccion_Arroz.xlsx', sheet_name='Hoja1')
 
 print("="*60)
 print("📊 KNN - CLASIFICACIÓN (Campaña Agrícola: Verano vs Invierno)")
 print("="*60)
 
-# Convertir la variable de texto a números (0 = Verano, 1 = Invierno)
 df['target_campaña'] = df['CAMPAÑA AGRICOLA'].map({'verano': 0, 'invierno': 1})
 
 # === 2. PREPARAR DATOS ===
@@ -61,7 +59,7 @@ cm = confusion_matrix(y_test, y_test_pred)
 
 print(f"📊 RESULTADOS - Precisión en PRUEBA: {acc_test:.2%}\n")
 
-# === 8. GRÁFICO 1: MATRIZ DE CONFUSIÓN ===
+# === 8. GRÁFICO 1: MATRIZ DE CONFUSIÓN (Imagen 03) ===
 plt.figure(figsize=(6, 4))
 sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
             xticklabels=['Verano (0)', 'Invierno (1)'],
@@ -70,10 +68,10 @@ plt.title(f'Matriz de Confusión KNN (K={k_final})')
 plt.xlabel('Predicción')
 plt.ylabel('Realidad')
 plt.tight_layout()
-plt.savefig('knn_matriz_arroz.png', dpi=300)
+plt.savefig('../03_imagenes/03_knn_matriz.png', dpi=150)
 plt.show()
 
-# === 9. GRÁFICO 2: FRONTERAS DE DECISIÓN ===
+# === 9. GRÁFICO 2: FRONTERAS DE DECISIÓN (Imagen 04) ===
 x_min, x_max = X_train[:, 0].min() - 0.5, X_train[:, 0].max() + 0.5
 y_min, y_max = X_train[:, 1].min() - 0.5, X_train[:, 1].max() + 0.5
 xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.02),
@@ -91,5 +89,5 @@ plt.ylabel('Producción (qq) - Escalado')
 plt.title(f'Fronteras de Decisión KNN - Campaña Agrícola (K={k_final})')
 plt.legend()
 plt.tight_layout()
-plt.savefig('knn_fronteras_arroz.png', dpi=300)
+plt.savefig('../03_imagenes/04_knn_fronteras.png', dpi=150)
 plt.show()

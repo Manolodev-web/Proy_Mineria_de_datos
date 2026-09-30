@@ -38,12 +38,14 @@ print(f"LightGBM - Accuracy: {accuracy_score(y_test, pred_lgb):.4f}")
 fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 nombres_clases = ["Verano", "Invierno"]
 
-sns.heatmap(confusion_matrix(y_test, pred_lgb), annot=True, fmt="d", cmap="GnBu", ax=axes[1], xticklabels=nombres_clases, yticklabels=nombres_clases)
+
+sns.heatmap(confusion_matrix(y_test, pred_ada), annot=True, fmt="d", cmap="Oranges", ax=axes[0], xticklabels=nombres_clases, yticklabels=nombres_clases)
 axes[0].set_title("Matriz de Confusión - AdaBoost")
 axes[0].set_xlabel("Predicción")
 axes[0].set_ylabel("Real")
 
-sns.heatmap(confusion_matrix(y_test, pred_lgb), annot=True, fmt="d", cmap="GnBu", ax=axes[1], xticklabels=nombres_clases, yticklabels=nombres_clases)
+# Matriz para LightGBM
+sns.heatmap(confusion_matrix(y_test, pred_lgb), annot=True, fmt="d", cmap="Blues", ax=axes[1], xticklabels=nombres_clases, yticklabels=nombres_clases)
 axes[1].set_title("Matriz de Confusión - LightGBM (Balanceado)")
 axes[1].set_xlabel("Predicción")
 

@@ -4,15 +4,11 @@ import matplotlib.pyplot as plt
 from sklearn.naive_bayes import GaussianNB
 from sklearn.preprocessing import KBinsDiscretizer
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 import seaborn as sns
 
 # 1. Cargar datos
 df = pd.read_excel('../datos/0901_Produccion_Arroz.xlsx', sheet_name='Hoja1')
-
-print("=" * 60)
-print("NAIVE BAYES - REGRESIÓN ADAPTADA (Discretización de Producción)")
-print("=" * 60)
 
 # Discretizar variable continua para Naive Bayes
 est = KBinsDiscretizer(n_bins=3, encode='ordinal', strategy='quantile')
@@ -27,11 +23,18 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random
 nb_reg = GaussianNB()
 nb_reg.fit(X_train, y_train)
 
+# 3. Predicciones y Métricas
 pred = nb_reg.predict(X_test)
 acc = accuracy_score(y_test, pred)
-print(f"Accuracy de categorías (Regresión binned): {acc:.4f}")
 
-# 3. Gráfico: Matriz de Confusión para Regresión Binned (Imagen 09)
+print("=" * 60)
+print("NAIVE BAYES - REGRESIÓN ADAPTADA (Discretización en 3 niveles)")
+print("=" * 60)
+print(f"Accuracy Global: {acc*100:.2f}%\n")
+print("Reporte detallado por nivel de producción:")
+print(classification_report(y_test, pred, target_names=['Baja', 'Media', 'Alta']))
+
+# 4. Gráfico: Matriz de Confusión para Regresión Binned (Imagen 09)
 cm = confusion_matrix(y_test, pred)
 plt.figure(figsize=(6, 5))
 sns.heatmap(cm, annot=True, fmt='d', cmap='Purples', xticklabels=['Baja', 'Media', 'Alta'], yticklabels=['Baja', 'Media', 'Alta'])

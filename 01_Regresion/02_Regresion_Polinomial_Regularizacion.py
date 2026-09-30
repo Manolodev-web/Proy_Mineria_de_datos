@@ -63,4 +63,7 @@ plt.xlabel("Superficie (Ha)")
 plt.ylabel("Producción (qq)")
 plt.legend()
 plt.tight_layout()
+
+# Guardar la imagen con la numeración 02 antes de mostrarla
+plt.savefig("../03_imagenes/02_regresion_polinomial.png", dpi=150)
 plt.show()

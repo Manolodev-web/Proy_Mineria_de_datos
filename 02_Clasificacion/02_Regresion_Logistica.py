@@ -10,10 +10,7 @@ from sklearn.preprocessing import StandardScaler
 # === 1. CARGA Y PREPARACIÓN DE DATOS ===
 df = pd.read_excel('../datos/0901_Produccion_Arroz.xlsx', sheet_name='Hoja1')
 
-# Variable objetivo: 0 = Verano, 1 = Invierno
 df['target_campaña'] = df['CAMPAÑA AGRICOLA'].map({'verano': 0, 'invierno': 1})
-
-# X tendrá 3 variables predictoras, y es el target
 X = df[['SUPERFICIE (Ha)', 'PRODUCCION (qq)', 'RENDIMIENTO (Kg/Ha)']]
 y = df['target_campaña']
 
@@ -34,7 +31,7 @@ X_test_scaled = scaler.transform(X_test)
 modelo = LogisticRegression()
 modelo.fit(X_train_scaled, y_train)
 
-# === 4. EVALUACIÓN Y MATRIZ DE CONFUSIÓN ===
+# === 4. EVALUACIÓN Y MATRIZ DE CONFUSIÓN (Imagen 05) ===
 y_pred = modelo.predict(X_test_scaled)
 acc = accuracy_score(y_test, y_pred)
 cm = confusion_matrix(y_test, y_pred)
@@ -47,10 +44,11 @@ sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
 plt.ylabel("Realidad")
 plt.xlabel("Predicción del Modelo")
 plt.title(f"Matriz de Confusión - Accuracy: {acc*100:.2f}%")
+plt.tight_layout()
+plt.savefig('../03_imagenes/05_logistica_matriz.png', dpi=150)
 plt.show()
 
-# === 5. MODELO UNIVARIADO PARA CURVA S-SHAPED ===
-# Usaremos el Rendimiento para graficar la probabilidad de que sea Invierno
+# === 5. MODELO UNIVARIADO PARA CURVA S-SHAPED (Imagen 06) ===
 X_single = df[["RENDIMIENTO (Kg/Ha)"]]
 X_tr_s, X_te_s, y_tr_s, y_te_s = train_test_split(X_single, y, test_size=0.2, random_state=42)
 
@@ -68,4 +66,6 @@ plt.xlabel("Rendimiento (Kg/Ha)")
 plt.ylabel("Probabilidad Calculada")
 plt.legend()
 plt.grid(True, linestyle="--", alpha=0.6)
+plt.tight_layout()
+plt.savefig('../03_imagenes/06_logistica_curva.png', dpi=150)
 plt.show()
