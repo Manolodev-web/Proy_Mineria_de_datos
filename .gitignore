@@ -1,0 +1,27 @@
+# Entornos virtuales
+venv/
+.env/
+env/
+.conda/
+
+# Temporales de CatBoost y TensorBoard
+catboost_info/
+**/catboost_info/
+*.tfevents*
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# Bytecode y caché de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos del sistema operativo
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
